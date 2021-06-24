@@ -1,0 +1,12 @@
+name: shiny
+title: shiny
+username:
+account: fundamentaldata
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2465490
+bundleId: 4751792
+url: https://fundamentaldata.shinyapps.io/shiny/
+when: 1624543972.2697
+asMultiple: FALSE
+asStatic: FALSE
