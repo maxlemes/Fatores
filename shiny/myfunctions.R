@@ -17,6 +17,8 @@
 #'
 #' @export
 
+require(magrittr)
+
 b3_ibra <- function(file){
   df <- read.table(file, sep = ";", dec = ",", header = FALSE, fill = TRUE)
   
@@ -163,8 +165,8 @@ div <- function(df, n){
   df %>%
     dplyr::filter(`DIVIDA LIQUIDA / EBIT`< 3, `CAGR LUCROS 5 ANOS` > 0)%>%
     dplyr::arrange(-DY)%>%
-    dplyr::distinct(`NOME`, .keep_all = TRUE)%>%
-    .[1:n,c(1,2,5,6,3,4)] %>%
+    dplyr::distinct(`Nome`, .keep_all = TRUE)%>%
+    .[1:n,c(1:3,6,7,4,5)] %>%
     dplyr::mutate(
       DY = formattable::percent(DY/100),
       vol = formattable::percent(vol),
@@ -183,9 +185,9 @@ qualy <-  function(df, n){
                   rank3 = rank(-`DIV. LIQ. / PATRI.`),
                   score = rank1 + rank2 + rank3
     )%>%
-    dplyr::distinct(`NOME`, .keep_all = TRUE)%>%
+    dplyr::distinct(`Nome`, .keep_all = TRUE)%>%
     dplyr::arrange(-score)%>%
-    .[1:n,c(1,2,5,21,28,16,3,4)]%>%
+    .[1:n,c(1:3,6,22,29,17,4,5)]%>%
     dplyr::mutate(
       ROE = formattable::percent(ROE/100),
       `CAGR LUCROS 5 ANOS` = formattable::percent(`CAGR LUCROS 5 ANOS`/100),
@@ -205,8 +207,8 @@ val <- function(df, n){
     dplyr::filter(`CAGR LUCROS 5 ANOS` > 0,
                   `ROE` > 0)%>%
     dplyr::arrange(`P/VP`)%>%
-    dplyr::distinct(`NOME`, .keep_all = TRUE)%>%
-    .[1:n,c(1,2,5,8,3,4)]%>%
+    dplyr::distinct(`Nome`, .keep_all = TRUE)%>%
+    .[1:n,c(1:3,6,9,4,5)]%>%
     dplyr::mutate(
       vol = formattable::percent(vol),
       Sharpe = round(Sharpe,2)
@@ -227,8 +229,8 @@ siz <- function(df, n){
                   rank2 =  rank(`CAGR RECEITAS 5 ANOS`),
                   score = rank1 + rank2)%>%
     dplyr::arrange(-score)%>%
-    dplyr::distinct(`NOME`, .keep_all = TRUE)%>%
-    .[1:n,c(1,2,5,32,27,33,3,4)]%>%
+    dplyr::distinct(`Nome`, .keep_all = TRUE)%>%
+    .[1:n,c(1:3,6,33,28,34,4,5)]%>%
     dplyr::mutate(
       `PEG Ratio` = formattable::percent(`PEG Ratio`),
       `CAGR RECEITAS 5 ANOS` = formattable::percent(`CAGR RECEITAS 5 ANOS`/100),

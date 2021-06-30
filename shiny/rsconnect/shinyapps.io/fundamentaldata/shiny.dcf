@@ -5,8 +5,8 @@ account: fundamentaldata
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2465490
-bundleId: 4751792
+bundleId: 4770833
 url: https://fundamentaldata.shinyapps.io/shiny/
-when: 1624543972.2697
+when: 1625010078.17844
 asMultiple: FALSE
 asStatic: FALSE

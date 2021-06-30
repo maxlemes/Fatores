@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Índices</title>
+  <base href="/indexPage/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="/indexPage/ruxitagentjs_ICA2SVfgjqrux_10217210531114014.js" data-dtconfig="rid=RID_89659613|rpid=-1138160983|domain=b3.com.br|reportUrl=/indexPage/rb_8370fec7-c82e-413f-a2c6-777046ed9811|app=8f97c75ad513b79e|rcdec=1209600000|featureHash=ICA2SVfgjqrux|vcv=2|rdnt=1|uxrgce=1|srcss=1|bp=2|srmcrv=10|cuc=qf4s7dpn|mel=100000|dpvc=1|ssv=4|lastModification=1624918455740|dtVersion=10217210531114014|srmcrl=1|tp=500,50,0,1|uxdcw=1500|vs=2|agentUri=/indexPage/ruxitagentjs_ICA2SVfgjqrux_10217210531114014.js"></script><link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94042116-5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-94042116-5');
+  </script>
+<link rel="stylesheet" href="styles.a04572475365ddfed29a.css"></head>
+
+<body>
+  <app-root></app-root>
+<script src="runtime-es2015.0811dcefd377500b5b1a.js" type="module"></script><script src="runtime-es5.0811dcefd377500b5b1a.js" nomodule defer></script><script src="polyfills-es5.cb20faed44193e59a687.js" nomodule defer></script><script src="polyfills-es2015.798f07ce8a65b1df98bb.js" type="module"></script><script src="scripts.766930f48d35062e7a23.js" defer></script><script src="main-es2015.85cfc6b6fdf08ede3849.js" type="module"></script><script src="main-es5.85cfc6b6fdf08ede3849.js" nomodule defer></script></body>
+
+</html>

@@ -7,9 +7,11 @@ file <- "data-raw/IBRADia_24-06-21.csv"
 b3_ibra(file)
 
 load("data/ibra.rda")
+load("data/segmentos.rda")
+ibra <- dplyr::left_join(ibra,segmentos[,2:5])
 
 #----------------- Baixando Dados do yahoo --------------------------
-getdata(ibra$yahoo)
+#getdata(ibra$yahoo)
 
 #------------------------- Lendos dados salvos -----------------------
 load("data/yahoo_data.Rdata")
@@ -31,12 +33,34 @@ save(last_date, file = "shiny/last_date.rda")
 
 #calcula a volatilidade dos ativos
 vol <- volatilidade(returns)
-vol <- dplyr::left_join(ibra[,1:2], vol)
-vol <- vol[,-4]
+vol <- dplyr::left_join(ibra[,c(1:2,5)], vol)
+vol <- vol[,-5]
 
 # Salvando o arquivo com a volatilidade
 ibra <- vol
 save(ibra, file = "shiny/ibra.rda")
+
+#------------------- Baixando os dados  ---------------------------
+
+urlstatus <- readr::read_file("shiny/status.txt")
+status <- readr::read_csv2(urlstatus)
+
+status <- status %>%
+  dplyr::rename(Ticker = "TICKER", Preço = "PRECO")
+
+status <- dplyr::left_join(ibra,status)
+
+status[is.na(status)] <- 0
+
+#------------------- Fatores  ---------------------------
+
+Dividendos <- div(status, 30)
+
+Quality <- qualy(status, 30)
+
+Valor <- val(status, 30)
+
+Size <- siz(status, 30)
 
 #------------------- Definindo o Momentum  ---------------------------
 
@@ -62,8 +86,8 @@ quality_mom <-  quality_mom %>%
   .[1:30,c(1,2,3)]
 
 #calcula a volatilidade dos 30 ativos
-vol <- dplyr::left_join(quality_mom, vol)
-vol <- vol[, c(1,4,2,3,5,6)]
+vol <- dplyr::left_join(quality_mom, status[,1:6])
+vol <- vol[, c(1,4,5,8,2,3,6,7)]
 
 # Arrumando a tabela para publicação
 momentum <- table_momentum(vol)
