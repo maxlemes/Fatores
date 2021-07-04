@@ -70,14 +70,14 @@ mom <- function(df, n){
   n_fim <- 0
   df <- TTR::ROC(df, n = n_ini - n_fim, type = "discrete")
   df <- df[nrow(df)-n_fim,]
-  df <- tidyr::gather(dplyr::as_tibble(df), Ticker, mom) # transfomando em um tibble
+  df <- tidyr::gather(dplyr::as_tibble(df), yhaoo, mom) # transfomando em um tibble
   return(df)
 }
 
 #Criando o tibble com o percentual dos retornos
-pos_neg <- function(df, n){
-  t_1 <- nrow(df) - 252/n
-  t_2 <- nrow(df) - as.integer(19/n)
+pos_neg <- function(df){
+  t_1 <- nrow(df) - 126
+  t_2 <- nrow(df)
   ##Separando os retornos positivos (1) e negativos (0)
   df <- (1 + sign(df))/2 
   df <- replace(df, list = is.na(df), values = 0)
@@ -138,7 +138,7 @@ volatilidade <- function(returns){
     aux <- na.omit(returns[,i])
     df[1, i] <- sqrt(252)*sd(aux)
     df[2, i] <- 252*mean(aux)
-    df[3, i] <- sqrt(252)*mean(aux)/sd(aux)
+    df[3, i] <- sqrt(252)*(mean(aux))/sd(aux)
   }
   
   aux <- tidyr::pivot_longer(dplyr::as_tibble(df), 
@@ -243,3 +243,14 @@ siz <- function(df, n){
     dplyr::arrange(Volatilidade)
 }
 
+all_returns <- function(df, returns){
+  df <- all_factors
+  aux <- returns[(nrow(returns)-20):nrow(returns),1:5]
+  colnames(aux) <- colnames(df)
+  for (i in ncol(df)){
+    df <- returns[,df[,i]]
+    df <- df[(nrow(df)-20):nrow(df),]
+    aux[,i] <- rowSums(df)/ncol(df)
+  }
+  return(aux)
+}

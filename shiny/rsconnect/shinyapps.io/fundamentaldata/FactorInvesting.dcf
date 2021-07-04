@@ -1,0 +1,12 @@
+name: FactorInvesting
+title: FactorInvesting
+username:
+account: fundamentaldata
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2663615
+bundleId: 4783441
+url: https://fundamentaldata.shinyapps.io/FactorInvesting/
+when: 1625309682.51559
+asMultiple: FALSE
+asStatic: FALSE

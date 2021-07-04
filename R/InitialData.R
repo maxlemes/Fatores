@@ -2,7 +2,7 @@ rm(list=ls())
 
 source("shiny/myfunctions.R")
 
-file <- "data-raw/IBRADia_24-06-21.csv"
+file <- "data-raw/IBRADia_01-07-21.csv"
 
 b3_ibra(file)
 
@@ -33,7 +33,7 @@ save(last_date, file = "shiny/last_date.rda")
 
 #calcula a volatilidade dos ativos
 vol <- volatilidade(returns)
-vol <- dplyr::left_join(ibra[,c(1:2,5)], vol)
+vol <- dplyr::left_join(ibra[,c(1:2,8)], vol)
 vol <- vol[,-5]
 
 # Salvando o arquivo com a volatilidade
@@ -49,8 +49,6 @@ status <- status %>%
   dplyr::rename(Ticker = "TICKER", Preço = "PRECO")
 
 status <- dplyr::left_join(ibra,status)
-
-status[is.na(status)] <- 0
 
 #------------------- Fatores  ---------------------------
 
@@ -77,7 +75,7 @@ roc <- roc %>%
   .[1:60,]
 
 # Calculando o percentual de positivos e negativos no período
-fip <- pos_neg(returns, tipo_mom)
+fip <- pos_neg(returns)
 
 #das 60 anteriores selecionamos as 30 melhores
 quality_mom <- dplyr::left_join(roc, fip)
@@ -94,3 +92,34 @@ momentum <- table_momentum(vol)
 
 # Salvando o arquivo com o momentum
 save(momentum, file = "shiny/momentum.rda")
+
+
+all_factors <- Dividendos[,1:2]
+all_factors[,2] <- Quality[,1]
+colnames(all_factors) <- c("Dividendos", "Quality")
+all_factors$Valor <- Valor[,1]
+all_factors$Size <- Size[,1]
+all_factors$Momentum <- momentum[[1]]
+
+save(all_factors, file = "data/all_factors.rda")
+
+fatores <- all_returns(all_factors, returns)
+
+load("data/ibra.rda")
+
+ibra <- ibra[,c(1,4)]
+ibra$Fatia <- ibra$Fatia/100
+aux <- returns[(nrow(returns)-20):nrow(returns),ibra[,1]]
+aux <- zoo::na.locf(aux)
+aux <- sweep(aux, 2, ibra$Fatia, "*")
+
+aux$IBrA <- rowSums(aux)
+fatores <- fatores[,1:5]
+fatores <- cbind(fatores, aux$IBrA)
+
+save(fatores, file = "shiny/fatores.rda")
+
+load("shiny/fatores.rda")
+
+PerformanceAnalytics::charts.PerformanceSummary(fatores[,c(5,6)], colorset = c(1:5))
+

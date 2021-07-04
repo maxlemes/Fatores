@@ -7,6 +7,7 @@ source("myfunctions.R", local = TRUE)
 load("ibra.rda")
 load("last_date.rda")
 load("momentum.rda")
+load("fatores.rda")
 
 #------------------- Baixando os dados  ---------------------------
 
@@ -126,11 +127,61 @@ ui <- fluidPage(
   fluidRow(
     tabsetPanel(
       id = 'dataset',
-      tabPanel("Dividendos", DT::dataTableOutput("mytable1", width = "70%"),align="center"),
-      tabPanel("Qualidade", DT::dataTableOutput("mytable2", width = "70%"),align="center"),
-      tabPanel("Valor", DT::dataTableOutput("mytable3", width = "70%"),align="center"),
-      tabPanel("Tamanho", DT::dataTableOutput("mytable4", width = "70%"),align="center"),
-      tabPanel("Momentum", DT::dataTableOutput("mytable5", width = "70%"),align="center")
+      tabPanel("Dividendos",
+              fluidRow(
+                column(12,
+                  DT::dataTableOutput("mytable1", width = "80%")
+                )),
+              fluidRow(
+                column(12,
+                       br(),  br(),  br(),
+                       plotOutput("divi")
+                )),
+             align="center"),
+      tabPanel("Qualidade",
+               fluidRow(
+                 column(12,              
+               DT::dataTableOutput("mytable2", width = "80%")
+                 )),
+               fluidRow(
+                 column(12,
+                        br(),  br(),  br(),
+                        plotOutput("qualy")
+                 )),
+               align="center"),
+      tabPanel("Valor", 
+               fluidRow(
+                 column(12,               
+               DT::dataTableOutput("mytable3", width = "80%")
+                 )),
+               fluidRow(
+                 column(12,
+                        br(),  br(),  br(),
+                        plotOutput("value")
+                 )),
+               align="center"),
+      tabPanel("Tamanho", 
+               fluidRow(
+                 column(12,               
+               DT::dataTableOutput("mytable4", width = "80%")
+                 )),
+               fluidRow(
+                 column(12,
+                        br(),  br(),  br(),
+                        plotOutput("size")
+                 )),
+               align="center"),
+      tabPanel("Momentum", 
+               fluidRow(
+                 column(12,               
+               DT::dataTableOutput("mytable5", width = "80%")
+                 )),
+               fluidRow(
+                 column(12,
+                        br(),  br(),  br(),
+                        plotOutput("mome")
+                 )),
+               align="center")
     )
   )
 )
@@ -218,6 +269,31 @@ server <- function(input, output, session){
       DT::formatCurrency(c("Preço"),currency = "R$ ", digits = 2)
   })
  
+  output$divi <- renderPlot({
+    #x <- as.numeric(input$symbol)
+    PerformanceAnalytics::charts.PerformanceSummary(fatores[,c(1,6)], main="Performance Summary", colorset = c(4,2))
+  })
+ 
+  output$qualy <- renderPlot({
+    #x <- as.numeric(input$symbol)
+    PerformanceAnalytics::charts.PerformanceSummary(fatores[,c(2,6)], main="Performance Summary", colorset = c(4,2))
+  })
+  
+  output$value <- renderPlot({
+    #x <- as.numeric(input$symbol)
+    PerformanceAnalytics::charts.PerformanceSummary(fatores[,c(3,6)], main="Performance Summary", colorset = c(4,2))
+  })
+  
+  output$size <- renderPlot({
+    #x <- as.numeric(input$symbol)
+    PerformanceAnalytics::charts.PerformanceSummary(fatores[,c(4,6)], main="Performance Summary", colorset = c(4,2))
+  })
+ 
+  output$mome <- renderPlot({
+    #x <- as.numeric(input$symbol)
+    PerformanceAnalytics::charts.PerformanceSummary(fatores[,c(5,6)], main="Performance Summary", colorset = c(4,2))
+  })
+   
 }
 
 shinyApp(ui, server)
